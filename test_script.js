@@ -30,11 +30,13 @@ var scriptConfig = {
             'Script Template': 'Script Template',
             Help: 'Help',
             'Invalid game mode!': 'Invalid game mode!',
+            'Overview': 'Overview',
         },
         en_US: {
             'Script Template': 'Script Template',
             Help: 'Help',
             'Invalid game mode!': 'Invalid game mode!',
+            'Overview': 'Overview',
         },
     },
     allowedMarkets: [],
@@ -44,47 +46,8 @@ var scriptConfig = {
     enableCountApi: true,
 };
 
-// Init Debug
-initDebug();
-
 // Init Translations Notice
 initTranslationsNotice();
-
-// Helper: Get parameter by name
-function getParameterByName(name, url = window.location.href) {
-    return new URL(url).searchParams.get(name);
-}
-
-// Helper: Generates script info
-function scriptInfo() {
-    return `[${scriptConfig.scriptData.name} ${scriptConfig.scriptData.version}]`;
-}
-
-// Helper: Prints universal debug information
-function initDebug() {
-    console.debug(`${scriptInfo()} It works !`);
-    console.debug(`${scriptInfo()} HELP:`, scriptConfig.scriptData.helpLink);
-    if (DEBUG) {
-        console.debug(`${scriptInfo()} Market:`, game_data.market);
-        console.debug(`${scriptInfo()} World:`, game_data.world);
-        console.debug(`${scriptInfo()} Screen:`, game_data.screen);
-        console.debug(`${scriptInfo()} Game Version:`, game_data.majorVersion);
-        console.debug(`${scriptInfo()} Game Build:`, game_data.version);
-        console.debug(`${scriptInfo()} Locale:`, game_data.locale);
-        console.debug(`${scriptInfo()} Premium:`, game_data.features.Premium.active);
-    }
-}
-
-// Helper: Text Translator
-function tt(string) {
-    var gameLocale = game_data.locale;
-
-    if (scriptConfig.translations[gameLocale] !== undefined) {
-        return scriptConfig.translations[gameLocale][string];
-    } else {
-        return scriptConfig.translations['en_DK'][string];
-    }
-}
 
 // Helper: Translations Notice
 function initTranslationsNotice() {
@@ -105,22 +68,23 @@ $.getScript(
         await twSDK.init(scriptConfig);
         const scriptInfo = twSDK.scriptInfo();
         const isValidScreen = twSDK.checkValidLocation('screen');
+        const isValidMode = twSDK.checkValidLocation('mode');
 
-        const LC_STORAGE_KEY = `${scriptConfig.scriptData.prefix}_data`;
+        const LC_STORAGE_KEY = `${scriptInfo.scriptData.prefix}_data`;
     // Initialize Script
     (function () {
-        const gameScreen = getParameterByName('screen');
-        const gameMode = getParameterByName('mode');
-
-        if (scriptConfig.allowedScreens.includes(gameScreen)) {
-            if (scriptConfig.allowedModes.includes(gameMode)) {
+        if (isValidScreen) {
+            if (isValidMode) {
                 console.log('We are on a valid game screen and mode, init script!');
                 console.log('If a lot of stuff are going to be done from the script encapsulate in a function');
             } else {
-                UI.ErrorMessage(`${tt('Invalid game mode!')}`);
+                UI.ErrorMessage(`${twSDK.tt('Invalid game mode!')}`);
             }
         } else {
             console.log('Show a notice or redirect to the correct place!');
+            UI.addConfirmBox('Redirect to ' + twSDK.tt('Overview') + "?", function () { // Callback function
+                twSDK.redirectTo(scriptInfo.allowedScreens[0]);
+            });
         }
     })();
 });
