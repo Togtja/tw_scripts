@@ -9,37 +9,39 @@
 * Approved Date: N/A
 * Mod: N/A
 */
-
-var scriptData = {
-    name: 'Togtja\'s Test Script',
-    version: 'v0.1',
-    author: 'Togtja',
-    authorUrl: 'https://github.com/Togtja/',
-    helpLink: '#',
-};
-
 // User Input
 if (typeof DEBUG !== 'boolean') DEBUG = false;
 
 // CONSTANTS
 var DUMMY_CONSTANT = 0;
 
-// Globals
-var allowedGameScreens = ['overview_villages'];
-var allowedGameModes = ['prod'];
 
-// Translations
-var translations = {
-    en_DK: {
-        'Script Template': 'Script Template',
-        Help: 'Help',
-        'Invalid game mode!': 'Invalid game mode!',
+// Script Config
+var scriptConfig = {
+    scriptData: {
+        name: 'Togtja\'s Test Script',
+        version: 'v0.1',
+        author: 'Togtja',
+        authorUrl: 'https://github.com/Togtja/',
+        helpLink: '#',
     },
-    en_US: {
-        'Script Template': 'Script Template',
-        Help: 'Help',
-        'Invalid game mode!': 'Invalid game mode!',
+    translations: {
+        en_DK: {
+            'Script Template': 'Script Template',
+            Help: 'Help',
+            'Invalid game mode!': 'Invalid game mode!',
+        },
+        en_US: {
+            'Script Template': 'Script Template',
+            Help: 'Help',
+            'Invalid game mode!': 'Invalid game mode!',
+        },
     },
+    allowedMarkets: [],
+    allowedScreens: ['overview_villages'],
+    allowedModes: ['incomings'],
+    isDebug: DEBUG,
+    enableCountApi: true,
 };
 
 // Init Debug
@@ -96,19 +98,29 @@ function initTranslationsNotice() {
     }
 }
 
-// Initialize Script
-(function () {
-    const gameScreen = getParameterByName('screen');
-    const gameMode = getParameterByName('mode');
+$.getScript(
+    `https://twscripts.dev/scripts/twSDK.js?url=${document.currentScript.src}`,
+    async function () {
+        // Initialize Library
+        await twSDK.init(scriptConfig);
+        const scriptInfo = twSDK.scriptInfo();
+        const isValidScreen = twSDK.checkValidLocation('screen');
 
-    if (allowedGameScreens.includes(gameScreen)) {
-        if (allowedGameModes.includes(gameMode)) {
-            console.log('We are on a valid game screen and mode, init script!');
-            console.log('If a lot of stuff are going to be done from the script encapsulate in a function');
+        const LC_STORAGE_KEY = `${scriptConfig.scriptData.prefix}_data`;
+    // Initialize Script
+    (function () {
+        const gameScreen = getParameterByName('screen');
+        const gameMode = getParameterByName('mode');
+
+        if (allowedGameScreens.includes(gameScreen)) {
+            if (allowedGameModes.includes(gameMode)) {
+                console.log('We are on a valid game screen and mode, init script!');
+                console.log('If a lot of stuff are going to be done from the script encapsulate in a function');
+            } else {
+                UI.ErrorMessage(`${tt('Invalid game mode!')}`);
+            }
         } else {
-            UI.ErrorMessage(`${tt('Invalid game mode!')}`);
+            console.log('Show a notice or redirect to the correct place!');
         }
-    } else {
-        console.log('Show a notice or redirect to the correct place!');
-    }
-})();
+    })();
+});
