@@ -112,8 +112,8 @@ $.getScript(
         const gameScreen = getParameterByName('screen');
         const gameMode = getParameterByName('mode');
 
-        if (allowedGameScreens.includes(gameScreen)) {
-            if (allowedGameModes.includes(gameMode)) {
+        if (scriptConfig.allowedScreens.includes(gameScreen)) {
+            if (scriptConfig.allowedModes.includes(gameMode)) {
                 console.log('We are on a valid game screen and mode, init script!');
                 console.log('If a lot of stuff are going to be done from the script encapsulate in a function');
             } else {
