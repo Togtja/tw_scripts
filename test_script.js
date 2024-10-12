@@ -79,10 +79,10 @@ function initDebug() {
 function tt(string) {
     var gameLocale = game_data.locale;
 
-    if (translations[gameLocale] !== undefined) {
-        return translations[gameLocale][string];
+    if (scriptConfig.translations[gameLocale] !== undefined) {
+        return scriptConfig.translations[gameLocale][string];
     } else {
-        return translations['en_DK'][string];
+        return scriptConfig.translations['en_DK'][string];
     }
 }
 
