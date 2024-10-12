@@ -31,13 +31,13 @@ var scriptConfig = {
             'Script Template': 'Script Template',
             Help: 'Help',
             'Invalid game mode!': 'Invalid game mode!',
-            'Overview': 'Overview',
+            'Redirect': 'Do you want to redirect to the correct place?',
         },
         en_US: {
             'Script Template': 'Script Template',
             Help: 'Help',
             'Invalid game mode!': 'Invalid game mode!',
-            'Overview': 'Overview',
+            'Redirect': 'Do you want to redirect to the correct place?',
         },
     },
     allowedMarkets: [],
@@ -77,13 +77,14 @@ $.getScript(
         if (isValidScreen) {
             if (isValidMode) {
                 console.log('We are on a valid game screen and mode, init script!');
-                console.log('If a lot of stuff are going to be done from the script encapsulate in a function');
+                var village_building = twSDK.getVillageBuildings();
+                console.log(village_building);
             } else {
                 UI.ErrorMessage(`${twSDK.tt('Invalid game mode!')}`);
             }
         } else {
             console.log('Show a notice or redirect to the correct place!');
-            UI.addConfirmBox('Redirect to ' + twSDK.tt('Overview') + "?", function () { // Callback function
+            UI.addConfirmBox(twSDK.tt('Redirect'), function () { // Callback function
                 twSDK.redirectTo(scriptConfig.allowedScreens[0]);
             });
         }
