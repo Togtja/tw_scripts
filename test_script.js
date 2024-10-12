@@ -19,6 +19,7 @@ var DUMMY_CONSTANT = 0;
 // Script Config
 var scriptConfig = {
     scriptData: {
+        prefix: 'togtja_test_script',
         name: 'Togtja\'s Test Script',
         version: 'v0.1',
         author: 'Togtja',
@@ -70,7 +71,7 @@ $.getScript(
         const isValidScreen = twSDK.checkValidLocation('screen');
         const isValidMode = twSDK.checkValidLocation('mode');
 
-        const LC_STORAGE_KEY = `${scriptInfo.scriptData.prefix}_data`;
+        const LC_STORAGE_KEY = `${scriptConfig.scriptData.prefix}_data`;
     // Initialize Script
     (function () {
         if (isValidScreen) {
@@ -83,7 +84,7 @@ $.getScript(
         } else {
             console.log('Show a notice or redirect to the correct place!');
             UI.addConfirmBox('Redirect to ' + twSDK.tt('Overview') + "?", function () { // Callback function
-                twSDK.redirectTo(scriptInfo.allowedScreens[0]);
+                twSDK.redirectTo(scriptConfig.allowedScreens[0]);
             });
         }
     })();
