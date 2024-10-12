@@ -90,7 +90,7 @@ function tt(string) {
 function initTranslationsNotice() {
     const gameLocale = game_data.locale;
 
-    if (translations[gameLocale] === undefined) {
+    if (scriptConfig.translations[gameLocale] === undefined) {
         UI.ErrorMessage(
             `No translation found for <b>${gameLocale}</b>. <a href="${scriptConfig.scriptData.helpLink}" class="btn" target="_blank" rel="noreferrer noopener">Add Yours</a> by replying to the thread.`,
             4000
