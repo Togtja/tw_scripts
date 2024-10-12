@@ -57,13 +57,13 @@ function getParameterByName(name, url = window.location.href) {
 
 // Helper: Generates script info
 function scriptInfo() {
-    return `[${scriptData.name} ${scriptData.version}]`;
+    return `[${scriptConfig.scriptData.name} ${scriptConfig.scriptData.version}]`;
 }
 
 // Helper: Prints universal debug information
 function initDebug() {
     console.debug(`${scriptInfo()} It works !`);
-    console.debug(`${scriptInfo()} HELP:`, scriptData.helpLink);
+    console.debug(`${scriptInfo()} HELP:`, scriptConfig.scriptData.helpLink);
     if (DEBUG) {
         console.debug(`${scriptInfo()} Market:`, game_data.market);
         console.debug(`${scriptInfo()} World:`, game_data.world);
@@ -92,7 +92,7 @@ function initTranslationsNotice() {
 
     if (translations[gameLocale] === undefined) {
         UI.ErrorMessage(
-            `No translation found for <b>${gameLocale}</b>. <a href="${scriptData.helpLink}" class="btn" target="_blank" rel="noreferrer noopener">Add Yours</a> by replying to the thread.`,
+            `No translation found for <b>${gameLocale}</b>. <a href="${scriptConfig.scriptData.helpLink}" class="btn" target="_blank" rel="noreferrer noopener">Add Yours</a> by replying to the thread.`,
             4000
         );
     }
