@@ -34,7 +34,8 @@ var scriptConfig = {
             'htmlSpot': 'Spot: ',
             'htmlReact': 'React: ',
             'spotSpan': 'Detected',
-            'noSpot': 'Undetected',
+            'spotableSpan': 'Detectable',
+            'noSpot': 'Undetectable',
 
         },
     },
@@ -356,8 +357,9 @@ function build_ui(incomingAttacks, spottedAttacks){
                 unit_info_str += twSDK.tt('htmlSpot') + unit[0] + ": " + unit[1].spot_time + " | "  + twSDK.tt('htmlReact') + unit[1].react_time + "<br>";
             }
             console.log(unit_info_str);
-            // Detected
-            var spot_html = "<span class='tooltip' title='{}' style='color: green; font-weight: bold;'>{}</span>".format(unit_info_str, twSDK.tt('spotSpan'));
+            // Detectable
+            //TODO: One for detectable and one for detected (Need to read if the attack is detected or not)
+            var spot_html = "<span class='tooltip' title='{}' style='color: yellow; font-weight: bold;'>{}</span>".format(unit_info_str, twSDK.tt('spotableSpan'));
             $("#incomings_table").find("tr").eq(i).find("td").eq(column_index).replaceWith("<td>" + spot_html + "</td>");
         }
         else{
