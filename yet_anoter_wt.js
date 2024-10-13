@@ -1,6 +1,6 @@
 /*
 * Script Name: Yet Another Watchtower
-* Version: v0.1
+* Version: v0.1.1
 * Last Updated: 2024-10-13
 * Author: Togtja
 * Author URL: https://github.com/Togtja/
