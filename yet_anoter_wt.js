@@ -73,7 +73,7 @@ async function get_wt() {
     const html_villages = doc.querySelectorAll('#villages')[0].rows;
 
     //For each village find its coordinates and watchtower level
-    for (let i = 1; i < html_villages.length; i++) {
+    for (let i = 0; i < html_villages.length; i++) {
         
         const village = html_villages[i];
         var village_cord = "";
