@@ -357,9 +357,20 @@ function build_ui(incomingAttacks, spottedAttacks){
                 unit_info_str += twSDK.tt('htmlSpot') + unit[0] + ": " + unit[1].spot_time + " | "  + twSDK.tt('htmlReact') + unit[1].react_time + "<br>";
             }
             console.log(unit_info_str);
-            // Detectable
-            //TODO: One for detectable and one for detected (Need to read if the attack is detected or not)
-            var spot_html = "<span class='tooltip' title='{}' style='color: yellow; font-weight: bold;'>{}</span>".format(unit_info_str, twSDK.tt('spotableSpan'));
+            // Check the class icon to see if the attack is detected or not
+            /*
+            '\n\t\t<input name="command_ids[674086549]" type="hidden" value="true">\n\t\t<input name="id_674086549" type="checkbox">\n        <span class="quickedit" data-id="674086549">\n            <span class="quickedit-content">\n                <a href="/game.php?village=11&amp;screen=info_command&amp;id=674086549&amp;type=other">\n                    <span class="icon-container">\n                        <span class="commandicon-wt" data-command-id="674086549" data-title="Attack (will be detected by a Watchtower)">\n\t<img src="https://dsxs.innogamescdn.com/asset/947c33cb/graphic/command/attack.png" alt="">\n</span>                    </span>\n                    <span class="quickedit-label">\n                         Attack                    </span>\n                </a>\n                <a class="rename-icon" href="#" data-title="Rename"></a>\n            </span>\n        </span>\n\t'
+            */
+            //Find the class commandicon-wt
+            var spot_html = "";
+            var image_src = $("#incomings_table").find("tr").eq(i).find("td").eq(0).find("span").find("span").find("span").find("img").attr("src");
+            if (image_src.includes("attack_small.png") || image_src.includes("attack_medium.png") || image_src.includes("attack_large.png")){
+                spot_html = "<span class='tooltip' title='{}' style='color: green; font-weight: bold;'>{}</span>".format(unit_info_str, twSDK.tt('spotSpan'));
+            }   
+            //if ($("#incomings_table").find("tr").eq(i).find("td").eq(0).find("span").find("span").find("span").hasClass("commandicon-wt")){
+            else {
+                spot_html = "<span class='tooltip' title='{}' style='color: orange; font-weight: bold;'>{}</span>".format(unit_info_str, twSDK.tt('spotableSpan'));
+            }
             $("#incomings_table").find("tr").eq(i).find("td").eq(column_index).replaceWith("<td>" + spot_html + "</td>");
         }
         else{
